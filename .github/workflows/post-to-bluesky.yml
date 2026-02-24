@@ -1,4 +1,4 @@
-name: Post new blog posts to Bluesky
+name: Publish new blog posts
 
 on:
   push:
@@ -37,3 +37,11 @@ jobs:
           NEW_POST_FILES: ${{ steps.new-posts.outputs.files }}
           SITE_URL: https://empatheticengineering.blog
         run: node scripts/post-to-bluesky.mjs
+
+      - name: Send email via Buttondown
+        if: steps.new-posts.outputs.files != ''
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          NEW_POST_FILES: ${{ steps.new-posts.outputs.files }}
+          SITE_URL: https://empatheticengineering.blog
+        run: node scripts/send-buttondown-email.mjs
