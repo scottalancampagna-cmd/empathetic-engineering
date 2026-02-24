@@ -1,0 +1,39 @@
+name: Post new blog posts to Bluesky
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/blog/**'
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Find new blog posts
+        id: new-posts
+        run: |
+          NEW=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/' 2>/dev/null || echo "")
+          NEW_SINGLE=$(echo "$NEW" | tr '\n' ' ' | xargs)
+          echo "files=$NEW_SINGLE" >> $GITHUB_OUTPUT
+
+      - name: Wait for Vercel deployment
+        if: steps.new-posts.outputs.files != ''
+        run: sleep 60
+
+      - name: Post to Bluesky
+        if: steps.new-posts.outputs.files != ''
+        env:
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          NEW_POST_FILES: ${{ steps.new-posts.outputs.files }}
+          SITE_URL: https://empatheticengineering.blog
+        run: node scripts/post-to-bluesky.mjs
