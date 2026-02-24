@@ -52,6 +52,23 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 			.last-updated-on {
 				font-style: italic;
 			}
+			.subscribe-prompt {
+				margin-top: 3em;
+				padding-top: 1em;
+				text-align: center;
+			}
+			.subscribe-prompt p {
+				color: rgb(var(--gray));
+				margin-bottom: 0.5em;
+			}
+			.subscribe-prompt a {
+				font-weight: 700;
+				color: rgb(var(--accent));
+				text-decoration: none;
+			}
+			.subscribe-prompt a:hover {
+				text-decoration: underline;
+			}
 		</style>
 	</head>
 
@@ -78,6 +95,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 						<hr />
 					</div>
 					<slot />
+					<div class="subscribe-prompt">
+						<hr />
+						<p>Enjoyed this? Get new posts straight to your inbox.</p>
+						<a href="/subscribe">Subscribe →</a>
+					</div>
 				</div>
 			</article>
 		</main>

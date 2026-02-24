@@ -1,0 +1,97 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Subscribe | ${SITE_TITLE}`}
+			description="Get new posts delivered straight to your inbox."
+		/>
+		<style>
+			main {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 3em 1em;
+			}
+			h1 {
+				margin-bottom: 0.25em;
+			}
+			.subtitle {
+				color: rgb(var(--gray));
+				margin-top: 0;
+				margin-bottom: 2.5em;
+			}
+			form {
+				display: flex;
+				flex-direction: column;
+				gap: 0.75em;
+				max-width: 420px;
+			}
+			label {
+				font-weight: 700;
+				font-size: 0.9rem;
+			}
+			input[type='email'] {
+				padding: 0.65em 0.85em;
+				font-size: 1rem;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 6px;
+				outline: none;
+				font-family: inherit;
+				transition: border-color 0.2s ease;
+			}
+			input[type='email']:focus {
+				border-color: rgb(var(--accent));
+			}
+			input[type='submit'] {
+				padding: 0.65em 1.25em;
+				background: rgb(var(--accent));
+				color: white;
+				border: none;
+				border-radius: 6px;
+				font-size: 1rem;
+				font-weight: 700;
+				cursor: pointer;
+				font-family: inherit;
+				transition: background 0.2s ease;
+			}
+			input[type='submit']:hover {
+				background: rgb(var(--accent-dark));
+			}
+			.powered-by {
+				font-size: 0.8rem;
+				color: rgb(var(--gray));
+				margin-top: 0.25em;
+			}
+			.powered-by a {
+				color: rgb(var(--gray));
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Stay in the loop</h1>
+			<p class="subtitle">New posts straight to your inbox. No spam, no noise.</p>
+			<form
+				action="https://buttondown.com/api/emails/embed-subscribe/campagna"
+				method="post"
+				class="embeddable-buttondown-form"
+				referrerpolicy="unsafe-url"
+			>
+				<label for="bd-email">Email address</label>
+				<input type="email" name="email" id="bd-email" placeholder="you@example.com" />
+				<input type="submit" value="Subscribe" />
+				<p class="powered-by">
+					<a href="https://buttondown.com/refer/campagna" target="_blank">Powered by Buttondown.</a>
+				</p>
+			</form>
+		</main>
+		<Footer />
+	</body>
+</html>
