@@ -1,0 +1,16 @@
+{
+	"Blog Post Template": {
+		"scope": "markdown",
+		"prefix": "blogpost",
+		"body": [
+			"---",
+			"title: \"$1\"",
+			"description: \"$2\"",
+			"pubDate: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+			"---",
+			"",
+			"$0"
+		],
+		"description": "New blog post frontmatter"
+	}
+}

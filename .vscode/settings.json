@@ -1,0 +1,16 @@
+{
+	"editor.quickSuggestions": {
+		"strings": true,
+		"other": true,
+		"comments": false
+	},
+	"editor.snippetSuggestions": "top",
+	"[markdown]": {
+		"editor.wordWrap": "on",
+		"editor.quickSuggestions": {
+			"other": true,
+			"comments": false,
+			"strings": true
+		}
+	}
+}
