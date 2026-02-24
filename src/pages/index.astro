@@ -9,40 +9,64 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 3em 1em;
+			}
+			h1 {
+				font-size: 2.5rem;
+				margin-bottom: 0.25em;
+			}
+			.subtitle {
+				font-size: 1.2rem;
+				color: rgb(var(--gray));
+				margin-top: 0;
+				margin-bottom: 2em;
+				font-style: italic;
+			}
+			.intro {
+				font-size: 1.1rem;
+				line-height: 1.8;
+				color: rgb(var(--gray-dark));
+			}
+			.nav-links {
+				display: flex;
+				gap: 1.5em;
+				margin-top: 2.5em;
+			}
+			.nav-links a {
+				font-size: 1rem;
+				font-weight: 700;
+				color: rgb(var(--accent));
+				text-decoration: none;
+				border-bottom: 2px solid transparent;
+				padding-bottom: 2px;
+				transition: border-color 0.2s ease;
+			}
+			.nav-links a:hover {
+				border-bottom-color: rgb(var(--accent));
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<h1>Empathetic Engineering</h1>
+			<p class="subtitle">Why empathy creates better code, better teams, and better outcomes.</p>
+			<div class="intro">
+				<p>
+					I'm Scott Campagna — an engineering executive with 15+ years building and scaling teams across mobile, fintech, and emerging technology. This is where I write about the human side of software: leadership, team culture, and what it actually takes to ship things that matter.
+				</p>
+				<p>
+					The premise is simple: the best engineering outcomes come from understanding people — your developers, your users, your stakeholders. Empathy isn't soft. It's a force multiplier.
+				</p>
+			</div>
+			<div class="nav-links">
+				<a href="/blog">Read the Blog &rarr;</a>
+				<a href="/resume">View Resume &rarr;</a>
+			</div>
 		</main>
 		<Footer />
 	</body>
