@@ -6,9 +6,10 @@ import Header from '../components/Header.astro';
 interface Props {
 	title: string;
 	description?: string;
+	lastUpdated?: string;
 }
 
-const { title, description = '' } = Astro.props;
+const { title, description = '', lastUpdated } = Astro.props;
 ---
 
 <html lang="en">
@@ -22,6 +23,113 @@ const { title, description = '' } = Astro.props;
 				padding: 2em 1em;
 				color: rgb(var(--gray-dark));
 			}
+			.last-updated {
+				font-size: 0.8rem;
+				color: rgb(var(--gray));
+				margin-top: 2em;
+				text-align: right;
+			}
+
+			/* ── highlight marks ── */
+			:global(mark) {
+				background: rgba(35, 55, 255, 0.1);
+				color: inherit;
+				border-radius: 3px;
+				padding: 0 2px;
+			}
+
+			/* ── abbr tooltips ── */
+			:global(abbr) {
+				text-decoration: underline dotted;
+				cursor: help;
+			}
+
+			/* ── collapsible details ── */
+			:global(details) {
+				margin: 0.75em 0;
+				border-left: 3px solid rgb(var(--gray-light));
+				padding-left: 1em;
+			}
+			:global(summary) {
+				cursor: pointer;
+				font-weight: 700;
+				color: rgb(var(--accent));
+				list-style: none;
+				padding: 0.4em 0;
+				user-select: none;
+			}
+			:global(summary::-webkit-details-marker) {
+				display: none;
+			}
+			:global(summary::before) {
+				content: '▶';
+				font-size: 0.65em;
+				display: inline-block;
+				margin-right: 0.5em;
+				transition: transform 0.2s ease;
+			}
+			:global(details[open] summary::before) {
+				transform: rotate(90deg);
+			}
+			:global(summary:hover) {
+				color: rgb(var(--accent-dark));
+			}
+			:global(details[open] summary) {
+				margin-bottom: 0.5em;
+			}
+
+			/* ── skill chips ── */
+			:global(.chips) {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.4em;
+				margin: 0.3em 0 1em;
+			}
+			:global(.chip) {
+				background: rgb(var(--gray-light));
+				border-radius: 20px;
+				padding: 0.2em 0.75em;
+				font-size: 0.82em;
+				color: rgb(var(--gray-dark));
+				font-weight: 500;
+			}
+
+			/* ── print button ── */
+			:global(.print-btn) {
+				float: right;
+				margin: 0 0 1em 1em;
+				padding: 0.4em 1em;
+				background: transparent;
+				border: 1.5px solid rgb(var(--accent));
+				color: rgb(var(--accent));
+				border-radius: 6px;
+				font-size: 0.85rem;
+				cursor: pointer;
+				font-family: inherit;
+				transition: all 0.2s ease;
+			}
+			:global(.print-btn:hover) {
+				background: rgb(var(--accent));
+				color: white;
+			}
+
+			/* ── print media ── */
+			@media print {
+				:global(header),
+				:global(footer),
+				:global(.print-btn),
+				.last-updated {
+					display: none !important;
+				}
+				:global(details) {
+					border-left: none;
+					padding-left: 0;
+				}
+				:global(.chip) {
+					border: 1px solid #ccc;
+					background: none;
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -29,6 +137,7 @@ const { title, description = '' } = Astro.props;
 		<main>
 			<div class="prose">
 				<slot />
+				{lastUpdated && <p class="last-updated">Last updated: {lastUpdated}</p>}
 			</div>
 		</main>
 		<Footer />

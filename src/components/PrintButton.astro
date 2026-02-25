@@ -1,0 +1,17 @@
+---
+---
+
+<button class="print-btn">⎙ Print / Save PDF</button>
+
+<script>
+  const btn = document.querySelector('.print-btn');
+  if (btn) {
+    btn.addEventListener('click', () => window.print());
+  }
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('details').forEach((d) => d.setAttribute('open', ''));
+  });
+  window.addEventListener('afterprint', () => {
+    document.querySelectorAll('details').forEach((d) => d.removeAttribute('open'));
+  });
+</script>
