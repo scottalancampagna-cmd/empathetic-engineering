@@ -48,6 +48,19 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 			.nav-links a:hover {
 				border-bottom-color: rgb(var(--accent));
 			}
+			@media (max-width: 720px) {
+				h1 {
+					font-size: 1.8rem;
+				}
+				.subtitle {
+					font-size: 1rem;
+				}
+				.nav-links {
+					flex-wrap: wrap;
+					gap: 1em;
+					margin-top: 2em;
+				}
+			}
 		</style>
 	</head>
 	<body>

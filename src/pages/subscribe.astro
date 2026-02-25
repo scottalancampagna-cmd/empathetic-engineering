@@ -71,6 +71,16 @@ import { SITE_TITLE } from '../consts';
 			.powered-by a {
 				color: rgb(var(--gray));
 			}
+			@media (max-width: 720px) {
+				form {
+					max-width: 100%;
+				}
+				input[type='email'],
+				input[type='submit'] {
+					width: 100%;
+					box-sizing: border-box;
+				}
+			}
 		</style>
 	</head>
 	<body>
