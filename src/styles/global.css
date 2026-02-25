@@ -132,7 +132,19 @@ hr {
 		font-size: 18px;
 	}
 	main {
-		padding: 1em;
+		padding: 1.5em 1em;
+	}
+	h1 {
+		font-size: 2em;
+	}
+	h2 {
+		font-size: 1.6em;
+	}
+	h3 {
+		font-size: 1.3em;
+	}
+	blockquote {
+		font-size: 1.1em;
 	}
 }
 
