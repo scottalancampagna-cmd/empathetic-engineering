@@ -7,9 +7,12 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.map((post) => ({
+		...post,
+		readingTime: Math.max(1, Math.ceil((post.body?.split(/\s+/).filter(Boolean).length ?? 0) / 200)),
+	}));
 ---
 
 <!doctype html>
@@ -100,7 +103,7 @@ const posts = (await getCollection('blog')).sort(
 									)}
 									<h4 class="title">{post.data.title}</h4>
 									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
+										<FormattedDate date={post.data.pubDate} /> &middot; {post.readingTime} min read
 									</p>
 								</a>
 							</li>

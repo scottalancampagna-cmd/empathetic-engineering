@@ -6,9 +6,12 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'blog'>['data'] & {
+	readingTime?: number;
+	wordCount?: number;
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, readingTime, wordCount } = Astro.props;
 ---
 
 <html lang="en">
@@ -49,8 +52,41 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				margin-bottom: 0.5em;
 				color: rgb(var(--gray));
 			}
+			.reading-time {
+				font-size: 0.85em;
+				color: rgb(var(--gray));
+				margin-top: 0.3em;
+			}
 			.last-updated-on {
 				font-style: italic;
+			}
+			/* ── ASCII section dividers (--- in markdown renders via slot, no scoping attr) ── */
+			.prose :global(hr) {
+				border: none;
+				text-align: center;
+				margin: 2em 0;
+				overflow: visible;
+				height: 1em;
+				line-height: 1em;
+			}
+			.prose :global(hr)::after {
+				content: '· · ·';
+				display: inline-block;
+				font-size: 1.1em;
+				letter-spacing: 0.5em;
+				color: rgb(var(--gray));
+			}
+			/* structural hrs in the template keep the thin line (higher specificity wins) */
+			.title > hr,
+			.subscribe-prompt > hr {
+				border: none;
+				border-top: 1px solid rgb(var(--gray-light));
+				height: 0;
+				margin: 1em 0;
+			}
+			.title > hr::after,
+			.subscribe-prompt > hr::after {
+				content: none;
 			}
 			.subscribe-prompt {
 				margin-top: 3em;
@@ -91,6 +127,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 								)
 							}
 						</div>
+						{readingTime && (
+							<p class="reading-time">{readingTime} min read &middot; {wordCount?.toLocaleString()} words</p>
+						)}
 						<h1>{title}</h1>
 						<hr />
 					</div>

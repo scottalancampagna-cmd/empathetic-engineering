@@ -3,13 +3,43 @@ const today = new Date();
 ---
 
 <footer>
+	<div class="visitor-count">
+		<span id="gc-count">···</span> visitors and counting
+	</div>
 	&copy; {today.getFullYear()} Scott Campagna. All rights reserved.
 </footer>
+
+<!-- GoatCounter analytics + visible counter -->
+<!-- Sign up free at goatcounter.com — use site code "empatheticengineering" (or your own) -->
+<!-- Then replace both instances of "empatheticengineering" below with your site code -->
+<script
+	data-goatcounter="https://empatheticengineering.goatcounter.com/count"
+	async
+	src="//gc.zgo.at/count.js"></script>
+<script>
+	fetch('https://empatheticengineering.goatcounter.com/counter//.json')
+		.then((r) => r.json())
+		.then((d) => {
+			const el = document.getElementById('gc-count');
+			if (el && d.count) el.textContent = d.count;
+		})
+		.catch(() => {});
+</script>
+
 <style>
 	footer {
-		padding: 2em 1em 6em 1em;
+		padding: 2em 1em 6em;
 		background: linear-gradient(var(--gray-gradient)) no-repeat;
 		color: rgb(var(--gray));
 		text-align: center;
+		font-size: 0.9rem;
+	}
+	.visitor-count {
+		font-family: monospace;
+		font-size: 0.8rem;
+		letter-spacing: 0.05em;
+		color: rgb(var(--gray));
+		margin-bottom: 0.75em;
+		opacity: 0.8;
 	}
 </style>
