@@ -1,0 +1,16 @@
+{
+  "file-explorer": true,
+  "global-search": true,
+  "switcher": true,
+  "backlink": false,
+  "canvas": false,
+  "tag-pane": false,
+  "properties": true,
+  "templates": true,
+  "note-composer": false,
+  "command-palette": true,
+  "slash-command": true,
+  "editor-status": true,
+  "word-count": true,
+  "file-recovery": true
+}

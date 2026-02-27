@@ -20,5 +20,9 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# Obsidian workspace state (changes on every open, not useful to track)
+**/.obsidian/workspace.json
+**/.obsidian/workspace-mobile.json
+
 # jetbrains setting folder
 .idea/
