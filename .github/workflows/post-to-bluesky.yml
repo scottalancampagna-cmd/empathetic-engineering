@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/content/blog/**'
+      - 'src/content/blog/*.md'
+      - 'src/content/blog/*.mdx'
 
 jobs:
   post:
@@ -21,7 +22,7 @@ jobs:
       - name: Find new blog posts
         id: new-posts
         run: |
-          NEW=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/' 2>/dev/null || echo "")
+          NEW=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/' 2>/dev/null | grep -E '^src/content/blog/[^/]+\.(md|mdx)$' || echo "")
           NEW_SINGLE=$(echo "$NEW" | tr '\n' ' ' | xargs)
           echo "files=$NEW_SINGLE" >> $GITHUB_OUTPUT
 
