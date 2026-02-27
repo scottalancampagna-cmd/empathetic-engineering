@@ -5,8 +5,10 @@
  */
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
+	--accent: #cc0000;
+	--accent-dark: #9a0000;
+	--accent-yellow: #ffd700;
+	--accent-blue: #006db7;
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
@@ -118,10 +120,15 @@ pre > code {
 	all: unset;
 }
 blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
+	border-left: 4px solid var(--accent-yellow);
+	background: rgba(255, 215, 0, 0.08);
+	padding: 0.1em 0 0.1em 20px;
 	margin: 0;
 	font-size: 1.333em;
+}
+h2 {
+	border-bottom: 2px solid var(--accent-yellow);
+	padding-bottom: 0.15em;
 }
 hr {
 	border: none;
