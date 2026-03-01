@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { basename } from 'path';
+import { basename, dirname } from 'path';
 
 const BLUESKY_HANDLE = process.env.BLUESKY_HANDLE;
 const BLUESKY_APP_PASSWORD = process.env.BLUESKY_APP_PASSWORD;
@@ -21,7 +21,9 @@ function parseFrontmatter(content) {
 }
 
 function getSlug(filePath) {
-	return basename(filePath).replace(/\.(md|mdx)$/, '');
+	const base = basename(filePath).replace(/\.(md|mdx)$/, '');
+	if (base === 'index') return basename(dirname(filePath));
+	return base;
 }
 
 async function authenticate() {

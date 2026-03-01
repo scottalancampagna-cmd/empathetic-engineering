@@ -22,7 +22,7 @@ jobs:
       - name: Find new blog posts
         id: new-posts
         run: |
-          NEW=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/' 2>/dev/null | grep -E '^src/content/blog/[^/]+\.(md|mdx)$' || echo "")
+          NEW=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- 'src/content/blog/' 2>/dev/null | grep -E '^src/content/blog/([^/]+\.(md|mdx)|[^/]+/index\.(md|mdx))$' || echo "")
           NEW_SINGLE=$(echo "$NEW" | tr '\n' ' ' | xargs)
           echo "files=$NEW_SINGLE" >> $GITHUB_OUTPUT
 
@@ -31,7 +31,7 @@ jobs:
         run: sleep 60
 
       - name: Post to Bluesky
-        if: steps.new-posts.outputs.files != ''
+        if: false # TEMP: disabled during Keystatic/Vercel setup — re-enable before going live
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
@@ -40,7 +40,7 @@ jobs:
         run: node scripts/post-to-bluesky.mjs
 
       - name: Send email via Buttondown
-        if: steps.new-posts.outputs.files != ''
+        if: false # TEMP: disabled during Keystatic/Vercel setup — re-enable before going live
         env:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           NEW_POST_FILES: ${{ steps.new-posts.outputs.files }}

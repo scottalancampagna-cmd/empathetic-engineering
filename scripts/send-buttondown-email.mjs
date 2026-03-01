@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { basename } from 'path';
+import { basename, dirname } from 'path';
 
 const BUTTONDOWN_API_KEY = process.env.BUTTONDOWN_API_KEY;
 const SITE_URL = process.env.SITE_URL || 'https://empatheticengineering.blog';
@@ -20,7 +20,9 @@ function parseFrontmatter(content) {
 }
 
 function getSlug(filePath) {
-	return basename(filePath).replace(/\.(md|mdx)$/, '');
+	const base = basename(filePath).replace(/\.(md|mdx)$/, '');
+	if (base === 'index') return basename(dirname(filePath));
+	return base;
 }
 
 function getPostBody(content) {
