@@ -9,7 +9,7 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://empatheticengineering.blog',
+	site: 'https://www.empatheticengineering.blog',
 	adapter: vercel(),
 	integrations: [mdx(), sitemap(), react(), keystatic()],
 });
