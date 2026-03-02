@@ -12,4 +12,15 @@ export default defineConfig({
 	site: 'https://www.empatheticengineering.blog',
 	adapter: vercel(),
 	integrations: [mdx(), sitemap(), react(), keystatic()],
+	vite: {
+		server: {
+			watch: {
+				// Prevent Obsidian vault files from triggering page reloads
+				ignored: [
+					'**/src/pages/blog/Blog Posts/**',
+					'**/src/pages/Empathetic Engineering/**',
+				],
+			},
+		},
+	},
 });
