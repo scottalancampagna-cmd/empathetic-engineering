@@ -1,0 +1,13 @@
+---
+import { getEntry, render } from 'astro:content';
+import Page from '../layouts/Page.astro';
+
+const entry = await getEntry('pages', 'now');
+if (!entry) throw new Error('Now page content not found');
+const { Content } = await render(entry);
+const { lastUpdated } = entry.data;
+---
+
+<Page title="Now" lastUpdated={lastUpdated}>
+	<Content />
+</Page>

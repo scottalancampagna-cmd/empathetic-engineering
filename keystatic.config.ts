@@ -1,4 +1,4 @@
-import { config, collection, fields } from '@keystatic/core';
+import { config, collection, singleton, fields } from '@keystatic/core';
 
 export default config({
 	storage: {
@@ -11,6 +11,45 @@ export default config({
 
 	ui: {
 		brand: { name: 'Empathetic Engineering' },
+	},
+
+	singletons: {
+		home: singleton({
+			label: 'Home Page',
+			path: 'src/content/pages/home',
+			format: { contentField: 'content' },
+			schema: {
+				subtitle: fields.text({
+					label: 'Subtitle',
+					description: 'Tagline shown under the site title on the home page',
+				}),
+				content: fields.mdx({ label: 'Bio Content' }),
+			},
+		}),
+		now: singleton({
+			label: 'Now Page',
+			path: 'src/content/pages/now',
+			format: { contentField: 'content' },
+			schema: {
+				lastUpdated: fields.text({
+					label: 'Last Updated',
+					description: 'e.g. "February 2026"',
+				}),
+				content: fields.mdx({ label: 'Content' }),
+			},
+		}),
+		resume: singleton({
+			label: 'Resume',
+			path: 'src/content/pages/resume',
+			format: { contentField: 'content' },
+			schema: {
+				lastUpdated: fields.text({
+					label: 'Last Updated',
+					description: 'e.g. "February 2026"',
+				}),
+				content: fields.mdx({ label: 'Content' }),
+			},
+		}),
 	},
 
 	collections: {

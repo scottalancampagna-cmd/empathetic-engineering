@@ -16,4 +16,13 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const pages = defineCollection({
+	// Singleton-style pages edited via Keystatic
+	loader: glob({ base: './src/content/pages', pattern: '*.{md,mdx}' }),
+	schema: z.object({
+		subtitle: z.string().optional(),
+		lastUpdated: z.string().optional(),
+	}),
+});
+
+export const collections = { blog, pages };

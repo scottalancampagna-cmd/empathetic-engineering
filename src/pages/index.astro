@@ -1,8 +1,13 @@
 ---
+import { getEntry, render } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const home = await getEntry('pages', 'home');
+const { Content: HomeBio } = home ? await render(home) : { Content: null };
+const subtitle = home?.data.subtitle ?? SITE_DESCRIPTION;
 ---
 
 <!doctype html>
@@ -71,14 +76,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<Header />
 		<main>
 			<h1>Empathetic Engineering</h1>
-			<p class="subtitle">Showing how empathy creates better outcomes, employees, and people!</p>
+			<p class="subtitle">{subtitle}</p>
 			<div class="intro">
-				<p>
-					I'm Scott Campagna — an engineering executive who doesn't fit the typical mold, and that's been the differentiator. 15+ years building and scaling teams from 50 to 250+ professionals across three continents, managing $15M P&L and serving 800+ financial institutions.
-				</p>
-				<p>
-					I specialize in mobile banking platforms, emerging XR/AR/VR technologies, and transforming the way teams actually ship software. This is where I write about the human side of all of it.
-				</p>
+				{HomeBio ? <HomeBio /> : (
+					<p>
+						I'm Scott Campagna — an engineering executive who doesn't fit the typical mold, and that's been the differentiator. 15+ years building and scaling teams from 50 to 250+ professionals across three continents, managing $15M P&L and serving 800+ financial institutions.
+					</p>
+					<p>
+						I specialize in mobile banking platforms, emerging XR/AR/VR technologies, and transforming the way teams actually ship software. This is where I write about the human side of all of it.
+					</p>
+				)}
 			</div>
 			<div class="nav-links">
 				<a href="/blog">Read the Blog &rarr;</a>

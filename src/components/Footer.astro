@@ -4,26 +4,33 @@ const today = new Date();
 
 <footer>
 	<div class="visitor-count">
-		<span id="gc-count">···</span> visitors and counting
+		<span class="led-display">YOU ARE VISITOR&nbsp;<span id="gc-count">···</span></span>
 	</div>
 	&copy; {today.getFullYear()} Scott Campagna. All rights reserved.
 </footer>
 
 <!-- GoatCounter analytics + visible counter -->
-<!-- Sign up free at goatcounter.com — use site code "empatheticengineering" (or your own) -->
-<!-- Then replace both instances of "empatheticengineering" below with your site code -->
 <script
 	data-goatcounter="https://empatheticengineering.goatcounter.com/count"
 	async
 	src="//gc.zgo.at/count.js"></script>
 <script>
-	fetch('https://empatheticengineering.goatcounter.com/counter/.json')
+	// Try total-site count first; fall back to root path if TOTAL isn't available
+	fetch('https://empatheticengineering.goatcounter.com/counter/TOTAL.json')
 		.then((r) => r.json())
 		.then((d) => {
 			const el = document.getElementById('gc-count');
 			if (el && d.count) el.textContent = d.count;
 		})
-		.catch(() => {});
+		.catch(() => {
+			fetch('https://empatheticengineering.goatcounter.com/counter/.json')
+				.then((r) => r.json())
+				.then((d) => {
+					const el = document.getElementById('gc-count');
+					if (el && d.count) el.textContent = d.count;
+				})
+				.catch(() => {});
+		});
 </script>
 
 <style>
@@ -35,11 +42,28 @@ const today = new Date();
 		font-size: 0.9rem;
 	}
 	.visitor-count {
-		font-family: monospace;
-		font-size: 0.8rem;
-		letter-spacing: 0.05em;
-		color: rgb(var(--gray));
 		margin-bottom: 0.75em;
-		opacity: 0.8;
+	}
+	/* LED display frame */
+	.led-display {
+		display: inline-block;
+		background: #0a0a0a;
+		border: 3px inset #444;
+		border-radius: 5px;
+		padding: 5px 14px;
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 0.75rem;
+		font-weight: bold;
+		letter-spacing: 0.12em;
+		color: #777;
+		text-transform: uppercase;
+	}
+	/* The glowing digit(s) */
+	#gc-count {
+		color: #ff6600;
+		text-shadow:
+			0 0 5px #ff6600,
+			0 0 12px #ff4400;
+		letter-spacing: 4px;
 	}
 </style>

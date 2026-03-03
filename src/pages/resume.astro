@@ -1,0 +1,15 @@
+---
+import { getEntry, render } from 'astro:content';
+import Page from '../layouts/Page.astro';
+import PrintButton from '../components/PrintButton.astro';
+
+const entry = await getEntry('pages', 'resume');
+if (!entry) throw new Error('Resume content not found');
+const { Content } = await render(entry);
+const { lastUpdated } = entry.data;
+---
+
+<Page title="Resume" lastUpdated={lastUpdated}>
+	<PrintButton />
+	<Content />
+</Page>

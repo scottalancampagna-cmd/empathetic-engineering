@@ -7,11 +7,13 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
+const now = new Date();
 const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	.map((post) => ({
 		...post,
 		readingTime: Math.max(1, Math.ceil((post.body?.split(/\s+/).filter(Boolean).length ?? 0) / 200)),
+		isNew: now.valueOf() - post.data.pubDate.valueOf() < 30 * 24 * 60 * 60 * 1000,
 	}));
 ---
 
@@ -24,58 +26,149 @@ const posts = (await getCollection('blog'))
 				max-width: min(960px, calc(100% - 2em));
 				width: 100%;
 			}
+
+			/* ── Retro newspaper-style blog header ── */
+			.blog-header {
+				text-align: center;
+				margin-bottom: 1.5rem;
+				padding: 0.75em 1.5em;
+				border: 4px double var(--accent);
+				background: #fff;
+				box-shadow: 5px 5px 0 var(--accent-yellow);
+			}
+			.blog-header h1 {
+				font-family: Georgia, 'Times New Roman', serif;
+				font-size: 2.5rem;
+				color: var(--accent);
+				margin: 0;
+				text-shadow: 2px 2px 0 var(--accent-yellow);
+				letter-spacing: 0.04em;
+			}
+			.blog-header .tagline {
+				font-style: italic;
+				font-size: 0.88rem;
+				color: rgb(var(--gray));
+				margin: 0.2em 0 0;
+			}
+
+			/* ── CSS marquee ticker ── */
+			.marquee-bar {
+				background: var(--accent);
+				color: var(--accent-yellow);
+				font-family: 'Courier New', monospace;
+				font-size: 0.72rem;
+				font-weight: bold;
+				padding: 4px 0;
+				overflow: hidden;
+				white-space: nowrap;
+				margin-bottom: 2rem;
+				letter-spacing: 0.08em;
+			}
+			.marquee-inner {
+				display: inline-block;
+				animation: ticker 28s linear infinite;
+			}
+			@keyframes ticker {
+				0% {
+					transform: translateX(100vw);
+				}
+				100% {
+					transform: translateX(-100%);
+				}
+			}
+
+			/* ── Card grid ── */
 			ul {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 2rem;
+				gap: 1.5rem;
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
 			}
 			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
+				width: calc(50% - 0.75rem);
 			}
 			ul li:first-child {
 				width: 100%;
-				margin-bottom: 1rem;
+				margin-bottom: 0.25rem;
+			}
+			ul li:first-child .title {
+				font-size: 2rem;
 			}
 			ul li:first-child img {
 				width: 100%;
 			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
 			ul li img {
 				margin-bottom: 0.5rem;
-				border-radius: 12px;
+				border-radius: 4px;
+				border: 2px solid rgb(var(--gray-light));
 			}
+
+			/* Beveled card */
 			ul li a {
 				display: block;
+				text-decoration: none;
+				background: #ffffff;
+				border: 3px outset #ccc;
+				padding: 0.75em 0.85em;
+				position: relative;
+				transition:
+					border-style 0.1s,
+					background 0.15s;
 			}
+			ul li a:hover {
+				border-style: inset;
+				background: #fffde7;
+			}
+
+			/* ── NEW! badge ── */
+			.badge-new {
+				position: absolute;
+				top: 6px;
+				right: 6px;
+				background: var(--accent-yellow);
+				color: var(--accent);
+				font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+				font-size: 0.6rem;
+				font-weight: bold;
+				padding: 2px 7px;
+				border: 2px solid var(--accent);
+				border-radius: 3px;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+				animation: blink 1.4s step-end infinite;
+				pointer-events: none;
+			}
+			@keyframes blink {
+				0%,
+				100% {
+					opacity: 1;
+				}
+				50% {
+					opacity: 0.35;
+				}
+			}
+
 			.title {
-				margin: 0;
+				margin: 0 0 0.3em;
 				color: rgb(var(--black));
 				line-height: 1.2;
+				font-size: 1.2rem;
+			}
+			ul li a:hover .title {
+				color: var(--accent);
 			}
 			.date {
-				margin: 0.25em 0 0;
+				margin: 0;
 				color: rgb(var(--gray));
-				font-size: 0.9em;
+				font-size: 0.8em;
+				font-family: 'Courier New', monospace;
 			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
+
 			@media (max-width: 720px) {
 				ul {
-					gap: 1.5em;
+					gap: 1em;
 				}
 				ul li {
 					width: 100%;
@@ -84,7 +177,10 @@ const posts = (await getCollection('blog'))
 					margin-bottom: 0;
 				}
 				ul li:first-child .title {
-					font-size: 1.563em;
+					font-size: 1.5rem;
+				}
+				.blog-header h1 {
+					font-size: 1.8rem;
 				}
 			}
 		</style>
@@ -92,6 +188,19 @@ const posts = (await getCollection('blog'))
 	<body>
 		<Header />
 		<main>
+			<div class="blog-header">
+				<h1>📰 The Blog</h1>
+				<p class="tagline">Dispatches from the empathetic frontier of tech &amp; leadership</p>
+			</div>
+
+			<div class="marquee-bar" aria-hidden="true">
+				<span class="marquee-inner"
+					>★ NEW POSTS ★ EMPATHETIC ENGINEERING ★ MOBILE TECH ★ TEAM BUILDING ★ LEADERSHIP ★ LEGO
+					★ ALL THE THINGS ★ NEW POSTS ★ EMPATHETIC ENGINEERING ★ MOBILE TECH ★ TEAM BUILDING ★
+					LEADERSHIP ★ LEGO ★ ALL THE THINGS ★</span
+				>
+			</div>
+
 			<section>
 				<ul>
 					{
@@ -99,11 +208,18 @@ const posts = (await getCollection('blog'))
 							<li>
 								<a href={`/blog/${post.id}/`}>
 									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
+										<Image
+											width={720}
+											height={360}
+											src={post.data.heroImage}
+											alt=""
+										/>
 									)}
+									{post.isNew && <span class="badge-new">★ NEW!</span>}
 									<h4 class="title">{post.data.title}</h4>
 									<p class="date">
-										<FormattedDate date={post.data.pubDate} /> &middot; {post.readingTime} min read
+										📅 <FormattedDate date={post.data.pubDate} /> &middot; ⏱️{' '}
+										{post.readingTime} min read
 									</p>
 								</a>
 							</li>
