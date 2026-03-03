@@ -87,7 +87,7 @@ const { title, description, pubDate, updatedDate, heroImage, readingTime, wordCo
 				position: relative;
 				background: none;
 			}
-			/* Row 1: red bricks */
+			/* Row 1: multicolor bricks (red→lime→teal→blue→orange→purple) */
 			.prose :global(hr)::before {
 				content: '';
 				display: block;
@@ -96,12 +96,12 @@ const { title, description, pubDate, updatedDate, heroImage, readingTime, wordCo
 				left: 0;
 				right: 0;
 				height: 18px;
-				background-image: url('/lego-red.svg');
+				background-image: url('/lego-row-1.svg');
 				background-repeat: repeat-x;
-				background-size: 30px 18px;
+				background-size: 180px 18px;
 				background-position: 0 0;
 			}
-			/* Row 2: yellow bricks (offset by half brick for stagger) */
+			/* Row 2: multicolor bricks offset (gold→green→pink→cyan→crimson→slate) */
 			.prose :global(hr)::after {
 				content: '';
 				display: block;
@@ -110,10 +110,10 @@ const { title, description, pubDate, updatedDate, heroImage, readingTime, wordCo
 				left: 0;
 				right: 0;
 				height: 18px;
-				background-image: url('/lego-yellow.svg');
+				background-image: url('/lego-row-2.svg');
 				background-repeat: repeat-x;
-				background-size: 30px 18px;
-				background-position: 15px 0;
+				background-size: 180px 18px;
+				background-position: 90px 0;
 			}
 
 			/* structural hrs in the template stay as thin lines */

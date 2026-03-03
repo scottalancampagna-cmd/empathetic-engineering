@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 18">
+  <!-- Brick 1: Cardinal Red -->
+  <rect x="4"  y="1" width="4" height="5" rx="1" fill="#ff4444"/>
+  <rect x="12" y="1" width="4" height="5" rx="1" fill="#ff4444"/>
+  <rect x="20" y="1" width="4" height="5" rx="1" fill="#ff4444"/>
+  <rect x="1"  y="6" width="28" height="12" fill="#cc0000"/>
+  <rect x="1"  y="6" width="28" height="3"  fill="#dd1111"/>
+  <rect x="1"  y="15" width="28" height="3"  fill="#990000"/>
+
+  <!-- Brick 2: Lime Green -->
+  <rect x="34" y="1" width="4" height="5" rx="1" fill="#bbee22"/>
+  <rect x="42" y="1" width="4" height="5" rx="1" fill="#bbee22"/>
+  <rect x="50" y="1" width="4" height="5" rx="1" fill="#bbee22"/>
+  <rect x="31" y="6" width="28" height="12" fill="#88cc00"/>
+  <rect x="31" y="6" width="28" height="3"  fill="#99dd00"/>
+  <rect x="31" y="15" width="28" height="3"  fill="#559900"/>
+
+  <!-- Brick 3: Teal -->
+  <rect x="64" y="1" width="4" height="5" rx="1" fill="#22ccdd"/>
+  <rect x="72" y="1" width="4" height="5" rx="1" fill="#22ccdd"/>
+  <rect x="80" y="1" width="4" height="5" rx="1" fill="#22ccdd"/>
+  <rect x="61" y="6" width="28" height="12" fill="#009aaa"/>
+  <rect x="61" y="6" width="28" height="3"  fill="#11aabb"/>
+  <rect x="61" y="15" width="28" height="3"  fill="#006677"/>
+
+  <!-- Brick 4: Blue -->
+  <rect x="94"  y="1" width="4" height="5" rx="1" fill="#4488ff"/>
+  <rect x="102" y="1" width="4" height="5" rx="1" fill="#4488ff"/>
+  <rect x="110" y="1" width="4" height="5" rx="1" fill="#4488ff"/>
+  <rect x="91"  y="6" width="28" height="12" fill="#2266cc"/>
+  <rect x="91"  y="6" width="28" height="3"  fill="#3377dd"/>
+  <rect x="91"  y="15" width="28" height="3"  fill="#114499"/>
+
+  <!-- Brick 5: Orange -->
+  <rect x="124" y="1" width="4" height="5" rx="1" fill="#ff9933"/>
+  <rect x="132" y="1" width="4" height="5" rx="1" fill="#ff9933"/>
+  <rect x="140" y="1" width="4" height="5" rx="1" fill="#ff9933"/>
+  <rect x="121" y="6" width="28" height="12" fill="#e86600"/>
+  <rect x="121" y="6" width="28" height="3"  fill="#ff7711"/>
+  <rect x="121" y="15" width="28" height="3"  fill="#aa4400"/>
+
+  <!-- Brick 6: Purple -->
+  <rect x="154" y="1" width="4" height="5" rx="1" fill="#bb66ee"/>
+  <rect x="162" y="1" width="4" height="5" rx="1" fill="#bb66ee"/>
+  <rect x="170" y="1" width="4" height="5" rx="1" fill="#bb66ee"/>
+  <rect x="151" y="6" width="28" height="12" fill="#8844bb"/>
+  <rect x="151" y="6" width="28" height="3"  fill="#9955cc"/>
+  <rect x="151" y="15" width="28" height="3"  fill="#552288"/>
+</svg>
