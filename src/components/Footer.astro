@@ -15,22 +15,15 @@ const today = new Date();
 	async
 	src="//gc.zgo.at/count.js"></script>
 <script>
-	// Try total-site count first; fall back to root path if TOTAL isn't available
-	fetch('https://empatheticengineering.goatcounter.com/counter/TOTAL.json')
+	// TOTAL.json maps to the literal path /TOTAL — not an aggregate.
+	// Use the root path counter; always update the element even when count is "0".
+	fetch('https://empatheticengineering.goatcounter.com/counter/.json')
 		.then((r) => r.json())
 		.then((d) => {
 			const el = document.getElementById('gc-count');
-			if (el && d.count) el.textContent = d.count;
+			if (el) el.textContent = d.count ?? '?';
 		})
-		.catch(() => {
-			fetch('https://empatheticengineering.goatcounter.com/counter/.json')
-				.then((r) => r.json())
-				.then((d) => {
-					const el = document.getElementById('gc-count');
-					if (el && d.count) el.textContent = d.count;
-				})
-				.catch(() => {});
-		});
+		.catch(() => {});
 </script>
 
 <style>

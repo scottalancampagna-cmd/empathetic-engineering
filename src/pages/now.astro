@@ -1,5 +1,6 @@
 ---
 import { getEntry, render } from 'astro:content';
+import CollapsibleLink from '../components/CollapsibleLink.astro';
 import Page from '../layouts/Page.astro';
 
 const entry = await getEntry('pages', 'now');
@@ -9,5 +10,5 @@ const { lastUpdated } = entry.data;
 ---
 
 <Page title="Now" lastUpdated={lastUpdated}>
-	<Content />
+	<Content components={{ a: CollapsibleLink }} />
 </Page>

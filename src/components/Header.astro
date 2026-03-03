@@ -3,6 +3,7 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
+<div class="rainbow-stripe" aria-hidden="true"></div>
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
@@ -10,7 +11,9 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/now">Now</HeaderLink>
+			<HeaderLink href="/about">About</HeaderLink>
 			<HeaderLink href="/resume">Resume</HeaderLink>
+			<HeaderLink href="/contact">Contact</HeaderLink>
 			<HeaderLink href="/subscribe">Subscribe</HeaderLink>
 		</div>
 		<div class="social-links">
@@ -30,6 +33,20 @@ import HeaderLink from './HeaderLink.astro';
 	</nav>
 </header>
 <style>
+	.rainbow-stripe {
+		height: 5px;
+		background: linear-gradient(
+			90deg,
+			#ff0000 0%,
+			#ff6600 14%,
+			#ffcc00 28%,
+			#00bb00 42%,
+			#0077ff 57%,
+			#6600cc 71%,
+			#cc00cc 85%,
+			#ff0000 100%
+		);
+	}
 	header {
 		margin: 0;
 		padding: 0 1em;
@@ -69,7 +86,7 @@ import HeaderLink from './HeaderLink.astro';
 	.social-links a {
 		display: flex;
 	}
-	@media (max-width: 600px) {
+	@media (max-width: 720px) {
 		nav {
 			flex-direction: column;
 			align-items: center;
@@ -79,14 +96,18 @@ import HeaderLink from './HeaderLink.astro';
 			padding: 0.5em 0 0;
 		}
 		.internal-links a {
-			padding: 0.5em 0.4em;
-			font-size: 0.9em;
+			padding: 0.5em 0.35em;
+			font-size: 0.82em;
 		}
 		.social-links {
 			display: none;
 		}
 	}
-	@media (min-width: 601px) and (max-width: 720px) {
+	@media (min-width: 721px) and (max-width: 900px) {
+		.internal-links a {
+			padding: 0.75em 0.4em;
+			font-size: 0.9em;
+		}
 		.social-links {
 			display: none;
 		}

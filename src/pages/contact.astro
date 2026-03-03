@@ -1,0 +1,157 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Contact | ${SITE_TITLE}`}
+			description="Get in touch with Scott Campagna — email, LinkedIn, GitHub, and more."
+		/>
+		<style>
+			main {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 2em 1em 4em;
+			}
+			h1 {
+				font-size: 2rem;
+				margin-bottom: 0.25em;
+			}
+			.subtitle {
+				color: rgb(var(--gray));
+				font-style: italic;
+				margin-bottom: 2.5em;
+			}
+
+			/* ── Contact grid ── */
+			.contact-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+				gap: 1.25rem;
+				margin-bottom: 3em;
+			}
+			.contact-card {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 0.5em;
+				padding: 1.5em 1em;
+				background: #fff;
+				border: 3px outset #ccc;
+				border-radius: 4px;
+				text-decoration: none;
+				color: rgb(var(--gray-dark));
+				transition:
+					border-style 0.1s,
+					background 0.15s,
+					color 0.15s;
+				text-align: center;
+			}
+			.contact-card:hover {
+				border-style: inset;
+				background: #fffde7;
+				color: var(--accent);
+			}
+			.contact-card .icon {
+				font-size: 2.2em;
+				line-height: 1;
+			}
+			.contact-card .label {
+				font-weight: 700;
+				font-size: 0.9rem;
+			}
+			.contact-card .handle {
+				font-size: 0.75rem;
+				color: rgb(var(--gray));
+				font-family: 'Courier New', monospace;
+				word-break: break-all;
+			}
+
+			/* ── Note section ── */
+			.note {
+				background: rgba(255, 215, 0, 0.1);
+				border-left: 4px solid var(--accent-yellow);
+				padding: 1em 1.25em;
+				border-radius: 0 6px 6px 0;
+				font-size: 0.9rem;
+				color: rgb(var(--gray-dark));
+			}
+			.note p {
+				margin: 0;
+			}
+
+			@media (max-width: 480px) {
+				.contact-grid {
+					grid-template-columns: 1fr 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Get in Touch</h1>
+			<p class="subtitle">
+				I'm always happy to hear from people. Whether it's about leadership, mobile tech, Lego, or
+				anything else — reach out!
+			</p>
+
+			<div class="contact-grid">
+				<a
+					href="mailto:scott@empatheticengineering.blog"
+					class="contact-card"
+				>
+					<span class="icon">📧</span>
+					<span class="label">Email</span>
+					<span class="handle">scott@empatheticengineering.blog</span>
+				</a>
+
+				<a
+					href="https://www.linkedin.com/in/scott-campagna-5bb3449/"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="contact-card"
+				>
+					<span class="icon">💼</span>
+					<span class="label">LinkedIn</span>
+					<span class="handle">scott-campagna-5bb3449</span>
+				</a>
+
+				<a
+					href="https://github.com/scottalancampagna-cmd"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="contact-card"
+				>
+					<span class="icon">🐙</span>
+					<span class="label">GitHub</span>
+					<span class="handle">scottalancampagna-cmd</span>
+				</a>
+
+				<!-- Add more social cards here as needed, e.g.:
+				<a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="contact-card">
+					<span class="icon">𝕏</span>
+					<span class="label">Twitter / X</span>
+					<span class="handle">@yourhandle</span>
+				</a>
+				-->
+			</div>
+
+			<div class="note">
+				<p>
+					📬 I do my best to reply to every message. If you're reaching out about speaking
+					opportunities, collaborations, or just want to chat about empathy in tech, email is the
+					fastest way to reach me.
+				</p>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

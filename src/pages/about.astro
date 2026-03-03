@@ -1,0 +1,262 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`About | ${SITE_TITLE}`}
+			description="Scott Campagna — engineering executive, mobile tech leader, and the empathy guy."
+		/>
+		<style>
+			main {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 2em 1em 4em;
+			}
+
+			/* ── Profile header ── */
+			.profile-header {
+				display: flex;
+				gap: 2em;
+				align-items: flex-start;
+				margin-bottom: 2.5em;
+			}
+			.profile-photo {
+				width: 160px;
+				height: 160px;
+				border-radius: 8px;
+				object-fit: cover;
+				border: 4px outset #ccc;
+				flex-shrink: 0;
+			}
+			.photo-placeholder {
+				width: 160px;
+				height: 160px;
+				border-radius: 8px;
+				background: rgb(var(--gray-light));
+				border: 4px outset #ccc;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 3em;
+				flex-shrink: 0;
+				color: rgb(var(--gray));
+				font-style: normal;
+			}
+			.profile-intro h1 {
+				font-size: 2rem;
+				margin: 0 0 0.15em;
+			}
+			.profile-intro .role {
+				font-size: 1rem;
+				color: rgb(var(--gray));
+				margin: 0 0 1em;
+				font-style: italic;
+			}
+			.profile-intro p {
+				font-size: 0.95rem;
+				line-height: 1.7;
+				color: rgb(var(--gray-dark));
+				margin: 0;
+			}
+
+			/* ── Section headings ── */
+			.section-title {
+				font-size: 1.4rem;
+				border-bottom: 3px solid var(--accent-yellow);
+				padding-bottom: 0.2em;
+				margin: 2em 0 1em;
+				color: rgb(var(--black));
+			}
+
+			/* ── Media cards grid ── */
+			.media-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+				gap: 1rem;
+			}
+			.media-card {
+				background: #fff;
+				border: 3px outset #ccc;
+				border-radius: 4px;
+				padding: 1em;
+				text-decoration: none;
+				color: inherit;
+				transition:
+					border-style 0.1s,
+					background 0.15s;
+				display: flex;
+				flex-direction: column;
+				gap: 0.4em;
+			}
+			.media-card:hover {
+				border-style: inset;
+				background: #fffde7;
+			}
+			.media-card .card-type {
+				font-size: 0.7rem;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: var(--accent);
+			}
+			.media-card .card-title {
+				font-size: 0.9rem;
+				font-weight: 700;
+				line-height: 1.3;
+				color: rgb(var(--black));
+			}
+			.media-card .card-meta {
+				font-size: 0.75rem;
+				color: rgb(var(--gray));
+				font-family: 'Courier New', monospace;
+				margin-top: auto;
+			}
+
+			/* ── Written & speaking list ── */
+			.speaking-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.speaking-list li {
+				display: flex;
+				flex-direction: column;
+				gap: 0.15em;
+				padding: 0.75em 0;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.speaking-list li:last-child {
+				border-bottom: none;
+			}
+			.speaking-list .item-title a {
+				font-weight: 700;
+				color: var(--accent);
+				text-decoration: none;
+			}
+			.speaking-list .item-title a:hover {
+				text-decoration: underline;
+			}
+			.speaking-list .item-venue {
+				font-size: 0.85rem;
+				color: rgb(var(--gray));
+				font-style: italic;
+			}
+
+			@media (max-width: 600px) {
+				.profile-header {
+					flex-direction: column;
+					align-items: center;
+					text-align: center;
+				}
+				.profile-intro .role {
+					text-align: center;
+				}
+				.media-grid {
+					grid-template-columns: 1fr 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<!-- ── Profile header ── -->
+			<div class="profile-header">
+				<!-- Replace profile.jpg in your /public folder to show your photo -->
+				<img
+					src="/profile.jpg"
+					alt="Scott Campagna"
+					class="profile-photo"
+					onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+				/>
+				<span class="photo-placeholder" style="display:none" aria-hidden="true">🧑‍💻</span>
+
+				<div class="profile-intro">
+					<h1>Scott Campagna</h1>
+					<p class="role">Engineering Executive · Mobile &amp; Emerging Tech · USC Trojan 🎓</p>
+					<p>
+						I'm an engineering executive who doesn't fit the typical mold — and that's been the
+						differentiator. 15+ years building and scaling teams from 50 to 250+ professionals across
+						three continents, managing $15M P&amp;L and serving 800+ financial institutions.
+					</p>
+					<p style="margin-top: 0.75em">
+						I specialize in mobile banking platforms, emerging XR/AR/VR technologies, and
+						transforming the way teams actually ship software. This blog is where I write about the
+						human side of all of it.
+					</p>
+				</div>
+			</div>
+
+			<!-- ── Podcast & Media ── -->
+			<h2 class="section-title">🎙️ Podcasts &amp; Media</h2>
+			<div class="media-grid">
+				<a
+					href="https://podcasts.apple.com/us/podcast/catalyst-podcast/id1087659707?i=1000686145902"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="media-card"
+				>
+					<span class="card-type">🎧 Podcast</span>
+					<span class="card-title">Putting People in the Right Positions</span>
+					<span class="card-meta">Catalyst Podcast · Jan 2025</span>
+				</a>
+
+				<a
+					href="https://launch.nttdata.com/insights/looking-ahead-the-promise-of-apple-vision-pro-and-visionary-path-ahead-for-ar"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="media-card"
+				>
+					<span class="card-type">🎧 Podcast</span>
+					<span class="card-title">Looking Into the Future: Apple Vision Pro</span>
+					<span class="card-meta">Catalyst Podcast · Mar 2024</span>
+				</a>
+
+				<a
+					href="https://bitrise.io/blog/post/mobile-development-and-delivery-at-scale"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="media-card"
+				>
+					<span class="card-type">📝 Publication</span>
+					<span class="card-title">Mobile Development and Delivery at Scale</span>
+					<span class="card-meta">Bitrise Blog · Apr 2024</span>
+				</a>
+			</div>
+
+			<!-- ── Speaking & Industry ── -->
+			<h2 class="section-title">🎤 Speaking &amp; Industry</h2>
+			<ul class="speaking-list">
+				<li>
+					<span class="item-title"
+						><a href="#" target="_blank" rel="noopener noreferrer"
+							>Mobile Development and Delivery at Scale</a
+						></span
+					>
+					<span class="item-venue">Mobile DevOps Summit · Featured Speaker · 2024</span>
+				</li>
+				<li>
+					<span class="item-title">Predictions Panel: Mobile DevOps Trends</span>
+					<span class="item-venue">Mobile DevOps Panel · Industry Expert · Jan 2023</span>
+				</li>
+			</ul>
+
+			<!-- ── Note for photo ── -->
+			<!--
+				To add your profile photo:
+				1. Add your photo file to the /public folder as "profile.jpg"
+				   (or any common format: .jpg, .jpeg, .png, .webp)
+				2. Update the <img src="/profile.jpg" ...> above to match the filename
+				The emoji placeholder (🧑‍💻) shows automatically if no photo is found.
+			-->
+		</main>
+		<Footer />
+	</body>
+</html>

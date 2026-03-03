@@ -1,0 +1,56 @@
+---
+interface Props {
+	href: string;
+	[key: string]: unknown;
+}
+
+const { href } = Astro.props;
+---
+
+<span class="caret-link"
+	><a href={href} target="_blank" rel="noopener noreferrer"><slot /></a><button
+		class="caret-btn"
+		type="button"
+		title="Show URL"
+		aria-expanded="false"
+		onclick="const d=this.nextElementSibling;const isOpen=this.getAttribute('aria-expanded')==='true';d.hidden=isOpen;this.textContent=isOpen?'▶':'▼';this.setAttribute('aria-expanded',String(!isOpen))"
+		>▶</button><span class="url-reveal" hidden><code>{href}</code></span></span
+>
+
+<style>
+	.caret-link {
+		display: inline;
+	}
+	.caret-btn {
+		background: none;
+		border: 1px solid var(--accent);
+		color: var(--accent);
+		font-size: 0.5em;
+		padding: 0 3px;
+		cursor: pointer;
+		border-radius: 2px;
+		margin-left: 2px;
+		vertical-align: middle;
+		line-height: 1.8;
+		transition: background 0.15s;
+	}
+	.caret-btn:hover {
+		background: var(--accent);
+		color: #fff;
+	}
+	.url-reveal {
+		display: block;
+		font-size: 0.7em;
+		word-break: break-all;
+		padding: 3px 6px;
+		margin-top: 2px;
+		background: rgba(229, 233, 240, 0.7);
+		border-left: 3px solid var(--accent);
+		border-radius: 0 3px 3px 0;
+	}
+	.url-reveal code {
+		background: none;
+		padding: 0;
+		color: rgb(var(--gray-dark));
+	}
+</style>
