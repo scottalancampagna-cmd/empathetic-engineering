@@ -11,11 +11,46 @@ const { href } = Astro.props;
 	><a href={href} target="_blank" rel="noopener noreferrer"><slot /></a><button
 		class="caret-btn"
 		type="button"
-		title="Show URL"
+		title="Show short URL"
 		aria-expanded="false"
-		onclick="const d=this.nextElementSibling;const isOpen=this.getAttribute('aria-expanded')==='true';d.hidden=isOpen;this.textContent=isOpen?'▶':'▼';this.setAttribute('aria-expanded',String(!isOpen))"
-		>▶</button><span class="url-reveal" hidden><code>{href}</code></span></span
+		data-href={href}
+		>▶</button><span class="url-display" hidden
+		><code class="short-url" data-loading="true">Loading…</code></span
+	></span
 >
+
+<script>
+	document.addEventListener('click', async (e) => {
+		const btn = (e.target as Element).closest<HTMLElement>('.caret-link > .caret-btn');
+		if (!btn) return;
+
+		const isOpen = btn.getAttribute('aria-expanded') === 'true';
+		const display = btn.nextElementSibling as HTMLElement;
+
+		if (isOpen) {
+			display.hidden = true;
+			btn.textContent = '▶';
+			btn.setAttribute('aria-expanded', 'false');
+		} else {
+			display.hidden = false;
+			btn.textContent = '▼';
+			btn.setAttribute('aria-expanded', 'true');
+
+			const codeEl = display.querySelector<HTMLElement>('.short-url');
+			if (codeEl?.dataset.loading) {
+				const href = btn.dataset.href!;
+				try {
+					const res = await fetch(`/api/shorten?url=${encodeURIComponent(href)}`);
+					const data = await res.json();
+					codeEl.textContent = data.shortUrl ?? href;
+				} catch {
+					codeEl.textContent = href;
+				}
+				delete codeEl.dataset.loading;
+			}
+		}
+	});
+</script>
 
 <style>
 	.caret-link {
@@ -38,19 +73,22 @@ const { href } = Astro.props;
 		background: var(--accent);
 		color: #fff;
 	}
-	.url-reveal {
+	.url-display[hidden] {
+		display: none;
+	}
+	.url-display {
 		display: block;
-		font-size: 0.7em;
-		word-break: break-all;
+		font-size: 0.75em;
 		padding: 3px 6px;
 		margin-top: 2px;
 		background: rgba(229, 233, 240, 0.7);
 		border-left: 3px solid var(--accent);
 		border-radius: 0 3px 3px 0;
 	}
-	.url-reveal code {
+	.short-url {
 		background: none;
 		padding: 0;
 		color: rgb(var(--gray-dark));
+		word-break: break-all;
 	}
 </style>
