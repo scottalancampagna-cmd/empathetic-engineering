@@ -40,7 +40,7 @@ jobs:
         run: node scripts/post-to-bluesky.mjs
 
       - name: Send email via Buttondown
-        if: false # TEMP: disabled during Keystatic/Vercel setup — re-enable before going live
+        if: steps.new-posts.outputs.files != ''
         env:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           NEW_POST_FILES: ${{ steps.new-posts.outputs.files }}
