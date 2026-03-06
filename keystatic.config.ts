@@ -69,7 +69,19 @@ export default config({
 			schema: {
 				title: fields.slug({
 					name: { label: 'Title' },
-					slug: { label: 'Slug', description: 'URL path for this post' },
+					slug: {
+						label: 'Slug',
+						description: 'URL path for this post (auto-prefixed with YYYYMMDD on creation)',
+						generate: (title) => {
+							const d = new Date();
+							const prefix = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+							const slugified = title
+								.toLowerCase()
+								.replace(/[^a-z0-9]+/g, '-')
+								.replace(/^-+|-+$/g, '');
+							return `${prefix}-${slugified}`;
+						},
+					},
 				}),
 				description: fields.text({
 					label: 'Description',
