@@ -1,4 +1,4 @@
-import { config, collection, singleton, fields, component } from '@keystatic/core';
+import { config, collection, singleton, fields } from '@keystatic/core';
 
 export default config({
 	storage: {
@@ -35,22 +35,10 @@ export default config({
 					label: 'Last Updated',
 					description: 'e.g. "February 2026"',
 				}),
-				content: fields.mdx({
+				content: fields.text({
 					label: 'Content',
-					components: {
-						PreviewLink: component({
-							label: 'Preview Link',
-							schema: {
-								href: fields.text({ label: 'URL' }),
-								image: fields.text({
-									label: 'Image path',
-									description: 'e.g. /previews/my-image.jpg',
-								}),
-								alt: fields.text({ label: 'Alt text' }),
-							},
-							preview: () => null,
-						}),
-					},
+					multiline: true,
+					description: 'Raw MDX — includes PreviewLink components. Edit here or directly in VS Code.',
 				}),
 			},
 		}),
@@ -63,46 +51,10 @@ export default config({
 					label: 'Last Updated',
 					description: 'e.g. "February 2026"',
 				}),
-				content: fields.mdx({
+				content: fields.text({
 					label: 'Content',
-					components: {
-						mark: component({
-							label: 'Highlight',
-							schema: {},
-							preview: () => null,
-						}),
-						abbr: component({
-							label: 'Abbreviation',
-							schema: {
-								title: fields.text({ label: 'Full text' }),
-							},
-							preview: () => null,
-						}),
-						details: component({
-							label: 'Details',
-							schema: {},
-							preview: () => null,
-						}),
-						summary: component({
-							label: 'Summary',
-							schema: {},
-							preview: () => null,
-						}),
-						div: component({
-							label: 'Div',
-							schema: {
-								className: fields.text({ label: 'Class name' }),
-							},
-							preview: () => null,
-						}),
-						span: component({
-							label: 'Span',
-							schema: {
-								className: fields.text({ label: 'Class name' }),
-							},
-							preview: () => null,
-						}),
-					},
+					multiline: true,
+					description: 'Raw MDX — contains custom HTML. Best edited directly in VS Code.',
 				}),
 			},
 		}),
