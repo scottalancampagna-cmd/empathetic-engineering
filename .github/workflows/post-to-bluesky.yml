@@ -31,7 +31,7 @@ jobs:
         run: sleep 60
 
       - name: Post to Bluesky
-        if: false # TEMP: disabled during Keystatic/Vercel setup — re-enable before going live
+        if: steps.new-posts.outputs.files != ''
         env:
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
