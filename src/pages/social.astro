@@ -6,8 +6,13 @@ import { BLUESKY_HANDLE, LINKEDIN_URL, SITE_TITLE } from '../consts';
 import linkedinData from '../data/linkedin-highlights.json';
 
 // Fetch Bluesky posts at build time
+interface BlueskyAuthor {
+	handle: string;
+	displayName?: string;
+}
 interface BlueskyPost {
 	uri: string;
+	author: BlueskyAuthor;
 	record: { text: string; createdAt: string };
 	likeCount: number;
 	repostCount: number;
@@ -16,10 +21,10 @@ interface BlueskyPost {
 interface FeedItem {
 	post: BlueskyPost;
 	reply?: unknown;
-	reason?: unknown;
+	reason?: { $type: string; by: BlueskyAuthor };
 }
 
-let bskyPosts: BlueskyPost[] = [];
+let bskyItems: FeedItem[] = [];
 let bskyError = false;
 
 try {
@@ -28,10 +33,7 @@ try {
 	);
 	if (res.ok) {
 		const data = await res.json();
-		bskyPosts = (data.feed as FeedItem[])
-			.filter((item) => !item.reason) // exclude reposts
-			.map((item) => item.post)
-			.slice(0, 12);
+		bskyItems = (data.feed as FeedItem[]).slice(0, 8);
 	} else {
 		bskyError = true;
 	}
@@ -39,10 +41,10 @@ try {
 	bskyError = true;
 }
 
-function getBskyPostUrl(uri: string) {
+function getBskyPostUrl(uri: string, authorHandle: string) {
 	// uri format: at://did:.../app.bsky.feed.post/rkey
 	const rkey = uri.split('/').pop();
-	return `https://bsky.app/profile/${BLUESKY_HANDLE}/post/${rkey}`;
+	return `https://bsky.app/profile/${authorHandle}/post/${rkey}`;
 }
 
 function formatDate(iso: string) {
@@ -120,12 +122,18 @@ const { highlights } = linkedinData;
 				border-style: inset;
 				background: #fffde7;
 			}
+			.bsky-repost-label {
+				font-family: 'Courier New', monospace;
+				font-size: 0.7rem;
+				color: rgb(var(--gray));
+				letter-spacing: 0.03em;
+			}
 			.bsky-text {
 				font-size: 0.92rem;
 				line-height: 1.5;
 				color: rgb(var(--gray-dark));
 				flex: 1;
-				/* clamp to ~5 lines */
+				/* clamp to ~6 lines */
 				display: -webkit-box;
 				-webkit-line-clamp: 6;
 				-webkit-box-orient: vertical;
@@ -257,12 +265,6 @@ const { highlights } = linkedinData;
 				font-size: 0.72rem;
 				color: rgb(var(--gray));
 			}
-			.no-highlights {
-				font-style: italic;
-				color: rgb(var(--gray));
-				font-size: 0.9rem;
-				padding: 0.5em 0;
-			}
 
 			@media (max-width: 720px) {
 				.page-header h1 {
@@ -299,26 +301,33 @@ const { highlights } = linkedinData;
 							@{BLUESKY_HANDLE}
 						</a>
 					</p>
-				) : bskyPosts.length === 0 ? (
+				) : bskyItems.length === 0 ? (
 					<p class="bsky-error">No posts found yet.</p>
 				) : (
 					<div class="bsky-grid">
-						{bskyPosts.map((post) => (
-							<a
-								class="bsky-card"
-								href={getBskyPostUrl(post.uri)}
-								target="_blank"
-								rel="noopener"
-							>
-								<p class="bsky-text">{post.record.text}</p>
-								<div class="bsky-meta">
-									<span>📅 {formatDate(post.record.createdAt)}</span>
-									{post.likeCount > 0 && <span>❤️ {post.likeCount}</span>}
-									{post.repostCount > 0 && <span>🔁 {post.repostCount}</span>}
-									{post.replyCount > 0 && <span>💬 {post.replyCount}</span>}
-								</div>
-							</a>
-						))}
+						{bskyItems.map((item) => {
+							const post = item.post;
+							const isRepost = !!item.reason;
+							return (
+								<a
+									class="bsky-card"
+									href={getBskyPostUrl(post.uri, post.author.handle)}
+									target="_blank"
+									rel="noopener"
+								>
+									{isRepost && (
+										<span class="bsky-repost-label">🔁 Repost · @{post.author.handle}</span>
+									)}
+									<p class="bsky-text">{post.record.text}</p>
+									<div class="bsky-meta">
+										<span>📅 {formatDate(post.record.createdAt)}</span>
+										{post.likeCount > 0 && <span>❤️ {post.likeCount}</span>}
+										{post.repostCount > 0 && <span>🔁 {post.repostCount}</span>}
+										{post.replyCount > 0 && <span>💬 {post.replyCount}</span>}
+									</div>
+								</a>
+							);
+						})}
 					</div>
 				)
 			}
@@ -357,7 +366,7 @@ const { highlights } = linkedinData;
 			</div>
 
 			{
-				highlights.length > 0 ? (
+				highlights.length > 0 && (
 					<div class="highlight-grid">
 						{highlights.map((h) => (
 							<a class="highlight-card" href={h.url} target="_blank" rel="noopener">
@@ -367,11 +376,6 @@ const { highlights } = linkedinData;
 							</a>
 						))}
 					</div>
-				) : (
-					<p class="no-highlights">
-						LinkedIn doesn't offer a public post API — but you can add notable posts as highlights
-						via the <a href="/keystatic">CMS</a> under <em>LinkedIn Highlights</em>.
-					</p>
 				)
 			}
 		</main>
