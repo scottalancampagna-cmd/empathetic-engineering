@@ -3,6 +3,45 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
+
+const books = [
+	{
+		title: "What Got You Here Won't Get You There",
+		author: 'Marshall Goldsmith',
+		color: '#e63946',
+		why: "The habits and behaviors that earned you success can be exactly what's holding you back from the next level. Goldsmith names the specific things high achievers do that quietly undermine them — and most of us are doing at least three of them. This one made me look at myself a lot more honestly.",
+	},
+	{
+		title: 'Think Again',
+		author: 'Adam Grant',
+		color: '#2a9d8f',
+		why: "The ability to change your mind — actually update your beliefs when evidence says you should — is a skill, not a personality trait. Grant convinced me that being confidently wrong and then publicly right is more powerful than never admitting you were wrong in the first place.",
+	},
+	{
+		title: 'Dare to Lead',
+		author: 'Brené Brown',
+		color: '#e9c46a',
+		why: "Everything I believe about leadership is in here somewhere. Vulnerability isn't weakness — it's the thing that actually builds trust. Brown gave language to a lot of things I'd been doing instinctively for years and helped me understand why they worked.",
+	},
+	{
+		title: "Childhood's End",
+		author: 'Arthur C. Clarke',
+		color: '#457b9d',
+		why: "Clarke asks what happens to humanity when we get everything we think we want — and the answer is unsettling in a way that sticks with you for years. It's the book that made me realize science fiction is actually the best lens for thinking about where we're headed.",
+	},
+	{
+		title: 'Earth Abides',
+		author: 'George R. Stewart',
+		color: '#a8dadc',
+		why: "A quiet, devastating post-apocalyptic novel that strips away everything nonessential and asks: what actually matters? Not survival — anyone can survive — but what do you build, and why? One of the most underrated books I've ever read.",
+	},
+	{
+		title: 'The Elegant Universe',
+		author: 'Brian Greene',
+		color: '#f4a261',
+		why: "Greene makes string theory and the fabric of spacetime genuinely beautiful. This is what curiosity looks like at full throttle — a physicist so in love with the elegance of the universe that you can't help catching some of it. It's the reason I'll read physics books forever.",
+	},
+];
 ---
 
 <!doctype html>
@@ -10,7 +49,7 @@ import { SITE_TITLE } from '../consts';
 	<head>
 		<BaseHead
 			title={`About | ${SITE_TITLE}`}
-			description="Scott Campagna — engineering executive, mobile tech leader, and the empathy guy."
+			description="Scott Campagna — engineering executive, generalist, and the ad hoc Director of Morale everywhere he goes."
 		/>
 		<style>
 			main {
@@ -47,7 +86,6 @@ import { SITE_TITLE } from '../consts';
 				font-size: 3em;
 				flex-shrink: 0;
 				color: rgb(var(--gray));
-				font-style: normal;
 			}
 			.profile-intro h1 {
 				font-size: 2rem;
@@ -63,7 +101,10 @@ import { SITE_TITLE } from '../consts';
 				font-size: 0.95rem;
 				line-height: 1.7;
 				color: rgb(var(--gray-dark));
-				margin: 0;
+				margin: 0 0 0.75em;
+			}
+			.profile-intro p:last-child {
+				margin-bottom: 0;
 			}
 
 			/* ── Section headings ── */
@@ -71,8 +112,68 @@ import { SITE_TITLE } from '../consts';
 				font-size: 1.4rem;
 				border-bottom: 3px solid var(--accent-yellow);
 				padding-bottom: 0.2em;
-				margin: 2em 0 1em;
+				margin: 2.5em 0 1em;
 				color: rgb(var(--black));
+			}
+
+			/* ── Influential books ── */
+			.books-grid {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1rem;
+				margin-bottom: 0.75rem;
+			}
+			.book-card {
+				background: #fff;
+				border: 3px outset #ccc;
+				padding: 0;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				transition: border-style 0.1s, background 0.15s;
+			}
+			.book-card:hover {
+				border-style: inset;
+				background: #fffde7;
+			}
+			.book-accent {
+				height: 5px;
+				flex-shrink: 0;
+			}
+			.book-body {
+				padding: 0.85em 1em;
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				gap: 0.15em;
+			}
+			.book-title {
+				font-weight: 700;
+				font-size: 0.92rem;
+				line-height: 1.3;
+				color: rgb(var(--black));
+			}
+			.book-author {
+				font-size: 0.78rem;
+				color: rgb(var(--gray));
+				font-style: italic;
+				margin-bottom: 0.5em;
+			}
+			.book-why {
+				font-size: 0.82rem;
+				line-height: 1.6;
+				color: rgb(var(--gray-dark));
+				margin: 0;
+			}
+			.reading-list-link {
+				font-size: 0.85rem;
+				color: var(--accent);
+				text-decoration: none;
+				display: inline-block;
+				margin-top: 0.25rem;
+			}
+			.reading-list-link:hover {
+				text-decoration: underline;
 			}
 
 			/* ── Media cards grid ── */
@@ -88,9 +189,7 @@ import { SITE_TITLE } from '../consts';
 				padding: 1em;
 				text-decoration: none;
 				color: inherit;
-				transition:
-					border-style 0.1s,
-					background 0.15s;
+				transition: border-style 0.1s, background 0.15s;
 				display: flex;
 				flex-direction: column;
 				gap: 0.4em;
@@ -119,7 +218,7 @@ import { SITE_TITLE } from '../consts';
 				margin-top: auto;
 			}
 
-			/* ── Written & speaking list ── */
+			/* ── Speaking list ── */
 			.speaking-list {
 				list-style: none;
 				padding: 0;
@@ -155,8 +254,8 @@ import { SITE_TITLE } from '../consts';
 					align-items: center;
 					text-align: center;
 				}
-				.profile-intro .role {
-					text-align: center;
+				.books-grid {
+					grid-template-columns: 1fr;
 				}
 				.media-grid {
 					grid-template-columns: 1fr 1fr;
@@ -169,7 +268,6 @@ import { SITE_TITLE } from '../consts';
 		<main>
 			<!-- ── Profile header ── -->
 			<div class="profile-header">
-				<!-- Replace profile.jpg in your /public folder to show your photo -->
 				<img
 					src="/profile.jpg"
 					alt="Scott Campagna"
@@ -180,19 +278,43 @@ import { SITE_TITLE } from '../consts';
 
 				<div class="profile-intro">
 					<h1>Scott Campagna</h1>
-					<p class="role">Engineering Executive · Mobile &amp; Emerging Tech · USC Trojan 🎓</p>
+					<p class="role">Engineering Executive · Mobile &amp; Emerging Tech · Ad Hoc Director of Morale</p>
 					<p>
-						I'm an engineering executive who doesn't fit the typical mold — and that's been the
-						differentiator. 15+ years building and scaling teams from 50 to 250+ professionals across
-						three continents, managing $15M P&amp;L and serving 800+ financial institutions.
+						I've been the ad hoc Director of Morale everywhere I've gone since I was running summer
+						camps in college — and the job description has always been the same: make the hard thing
+						a little more fun than it has to be.
 					</p>
-					<p style="margin-top: 0.75em">
-						I specialize in mobile banking platforms, emerging XR/AR/VR technologies, and
-						transforming the way teams actually ship software. This blog is where I write about the
-						human side of all of it.
+					<p>
+						I'm a generalist by nature. Genuinely curious about almost everything — physics, politics,
+						sci-fi, basketball, the way teams actually work, why some ideas spread and others don't.
+						I learn quickly and can get reasonably good at most things, but when something grabs me I
+						go deeper than most generalists do. I can't help it.
+					</p>
+					<p>
+						Professionally that looks like 15+ years building and scaling engineering organizations
+						across three continents — mobile banking, XR/AR/VR, teams from 50 to 250+ people. This
+						blog is where I write about the human side of all of it.
 					</p>
 				</div>
 			</div>
+
+			<!-- ── Influential books ── -->
+			<h2 class="section-title">📚 Books That Shaped Me</h2>
+			<div class="books-grid">
+				{
+					books.map((book) => (
+						<div class="book-card">
+							<div class="book-accent" style={`background:${book.color}`} />
+							<div class="book-body">
+								<span class="book-title">{book.title}</span>
+								<span class="book-author">{book.author}</span>
+								<p class="book-why">{book.why}</p>
+							</div>
+						</div>
+					))
+				}
+			</div>
+			<a href="/reading" class="reading-list-link">Full reading list →</a>
 
 			<!-- ── Podcast & Media ── -->
 			<h2 class="section-title">🎙️ Podcasts &amp; Media</h2>
@@ -235,11 +357,11 @@ import { SITE_TITLE } from '../consts';
 			<h2 class="section-title">🎤 Speaking &amp; Industry</h2>
 			<ul class="speaking-list">
 				<li>
-					<span class="item-title"
-						><a href="#" target="_blank" rel="noopener noreferrer"
+					<span class="item-title">
+						<a href="#" target="_blank" rel="noopener noreferrer"
 							>Mobile Development and Delivery at Scale</a
-						></span
-					>
+						>
+					</span>
 					<span class="item-venue">Mobile DevOps Summit · Featured Speaker · 2024</span>
 				</li>
 				<li>
@@ -247,15 +369,6 @@ import { SITE_TITLE } from '../consts';
 					<span class="item-venue">Mobile DevOps Panel · Industry Expert · Jan 2023</span>
 				</li>
 			</ul>
-
-			<!-- ── Note for photo ── -->
-			<!--
-				To add your profile photo:
-				1. Add your photo file to the /public folder as "profile.jpg"
-				   (or any common format: .jpg, .jpeg, .png, .webp)
-				2. Update the <img src="/profile.jpg" ...> above to match the filename
-				The emoji placeholder (🧑‍💻) shows automatically if no photo is found.
-			-->
 		</main>
 		<Footer />
 	</body>
