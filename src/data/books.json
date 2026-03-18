@@ -1,0 +1,44 @@
+{
+  "books": [
+    {
+      "title": "Strong Ground",
+      "author": "Brene Brown",
+      "status": "reading",
+      "goodreadsUrl": "",
+      "coverUrl": "",
+      "startDate": "",
+      "finishDate": "",
+      "notes": ""
+    },
+    {
+      "title": "Enshittification",
+      "author": "Cory Doctorow",
+      "status": "reading",
+      "goodreadsUrl": "",
+      "coverUrl": "",
+      "startDate": "",
+      "finishDate": "",
+      "notes": ""
+    },
+    {
+      "title": "Win Every Argument",
+      "author": "Mehdi Hasan",
+      "status": "reading",
+      "goodreadsUrl": "",
+      "coverUrl": "",
+      "startDate": "",
+      "finishDate": "",
+      "notes": ""
+    },
+    {
+      "title": "Nemesis Games",
+      "author": "James S.A. Corey",
+      "status": "reading",
+      "goodreadsUrl": "",
+      "coverUrl": "",
+      "startDate": "",
+      "finishDate": "",
+      "notes": ""
+    }
+  ]
+}

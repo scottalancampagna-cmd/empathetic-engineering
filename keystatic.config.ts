@@ -14,6 +14,50 @@ export default config({
 	},
 
 	singletons: {
+		linkedinHighlights: singleton({
+			label: 'LinkedIn Highlights',
+			path: 'src/data/linkedin-highlights',
+			format: { data: 'json' },
+			schema: {
+				highlights: fields.array(
+					fields.object({
+						title: fields.text({ label: 'Post Title / Excerpt' }),
+						url: fields.text({ label: 'LinkedIn Post URL' }),
+						date: fields.date({ label: 'Post Date' }),
+						summary: fields.text({ label: 'Summary', multiline: true }),
+					}),
+					{ label: 'Highlights', itemLabel: (props) => props.fields.title.value || 'New Highlight' },
+				),
+			},
+		}),
+		books: singleton({
+			label: 'Reading List',
+			path: 'src/data/books',
+			format: { data: 'json' },
+			schema: {
+				books: fields.array(
+					fields.object({
+						title: fields.text({ label: 'Title', validation: { isRequired: true } }),
+						author: fields.text({ label: 'Author', validation: { isRequired: true } }),
+						status: fields.select({
+							label: 'Status',
+							options: [
+								{ label: 'Currently Reading', value: 'reading' },
+								{ label: 'Read', value: 'read' },
+								{ label: 'Want to Read', value: 'want' },
+							],
+							defaultValue: 'reading',
+						}),
+						goodreadsUrl: fields.text({ label: 'Goodreads URL (optional)' }),
+						coverUrl: fields.text({ label: 'Cover Image URL (optional)' }),
+						startDate: fields.date({ label: 'Start Date (optional)' }),
+						finishDate: fields.date({ label: 'Finish Date (optional)' }),
+						notes: fields.text({ label: 'Notes (optional)', multiline: true }),
+					}),
+					{ label: 'Books', itemLabel: (props) => `${props.fields.title.value} — ${props.fields.author.value}` || 'New Book' },
+				),
+			},
+		}),
 		home: singleton({
 			label: 'Home Page',
 			path: 'src/content/pages/home',
