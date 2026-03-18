@@ -79,10 +79,12 @@ export default config({
 					label: 'Last Updated',
 					description: 'e.g. "February 2026"',
 				}),
-				content: fields.text({
+				content: fields.mdx({
 					label: 'Content',
-					multiline: true,
-					description: 'Raw MDX — includes PreviewLink components. Edit here or directly in VS Code.',
+					images: {
+						directory: 'src/assets/now-images',
+						publicPath: '../../assets/now-images/',
+					},
 				}),
 			},
 		}),
