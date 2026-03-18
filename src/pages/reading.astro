@@ -26,6 +26,9 @@ const statusLabel: Record<string, string> = {
 	read: '✅ Read',
 	want: '🔖 Want to Read',
 };
+
+// Cycle through accent colors for spine strips
+const spineColors = ['#e63946', '#2a9d8f', '#e9c46a', '#457b9d', '#a8dadc', '#f4a261'];
 ---
 
 <!doctype html>
@@ -72,73 +75,53 @@ const statusLabel: Record<string, string> = {
 
 			.book-grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-				gap: 1.2rem;
+				grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+				gap: 1rem;
 				margin-bottom: 0.5rem;
 			}
 
+			/* Card with cover image */
 			.book-card {
 				background: #fff;
 				border: 3px outset #ccc;
 				text-decoration: none;
 				color: inherit;
 				display: flex;
-				flex-direction: column;
+				flex-direction: row;
 				transition: border-style 0.1s, background 0.15s;
+				overflow: hidden;
 			}
 			.book-card:hover {
 				border-style: inset;
 				background: #fffde7;
 			}
 
-			.book-cover {
-				width: 100%;
-				aspect-ratio: 2 / 3;
-				object-fit: cover;
-				display: block;
-				border-bottom: 2px solid rgb(var(--gray-light));
-				background: rgb(var(--gray-light));
+			/* Colored spine strip (shown when no cover) */
+			.book-spine {
+				flex-shrink: 0;
+				width: 8px;
 			}
 
-			.book-cover-placeholder {
-				width: 100%;
-				aspect-ratio: 2 / 3;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
-				border-bottom: 2px solid rgb(var(--gray-light));
-				gap: 0.3em;
-				padding: 0.5em;
-				text-align: center;
-			}
-			.book-cover-placeholder .cover-title {
-				font-size: 0.75rem;
-				font-weight: bold;
-				color: rgb(var(--gray-dark));
-				line-height: 1.3;
-			}
-			.book-cover-placeholder .cover-author {
-				font-size: 0.65rem;
-				color: rgb(var(--gray));
-				font-style: italic;
-			}
-			.cover-icon {
-				font-size: 1.8rem;
-				line-height: 1;
+			/* Cover thumbnail (shown when coverUrl is set) */
+			.book-cover-thumb {
+				flex-shrink: 0;
+				width: 64px;
+				object-fit: cover;
+				display: block;
+				border-right: 2px solid rgb(var(--gray-light));
 			}
 
 			.book-info {
-				padding: 0.6em 0.75em 0.75em;
+				padding: 0.75em 0.85em;
 				flex: 1;
 				display: flex;
 				flex-direction: column;
-				gap: 0.25em;
+				gap: 0.2em;
+				min-width: 0;
 			}
 			.book-title {
 				font-weight: bold;
-				font-size: 0.9rem;
+				font-size: 0.95rem;
 				line-height: 1.3;
 				color: rgb(var(--black));
 			}
@@ -146,33 +129,23 @@ const statusLabel: Record<string, string> = {
 				color: var(--accent);
 			}
 			.book-author {
-				font-size: 0.8rem;
+				font-size: 0.82rem;
 				color: rgb(var(--gray));
 				font-style: italic;
-			}
-			.book-meta {
-				font-family: 'Courier New', monospace;
-				font-size: 0.68rem;
-				color: rgb(var(--gray));
-				margin-top: auto;
-				padding-top: 0.3em;
 			}
 			.book-notes {
 				font-size: 0.78rem;
 				color: rgb(var(--gray-dark));
 				line-height: 1.4;
 				font-style: italic;
-				margin-top: 0.2em;
+				margin-top: 0.3em;
 			}
-
-			.goodreads-note {
-				font-size: 0.78rem;
+			.book-meta {
+				font-family: 'Courier New', monospace;
+				font-size: 0.68rem;
 				color: rgb(var(--gray));
-				font-style: italic;
-				margin-top: 0.25rem;
-			}
-			.goodreads-note a {
-				color: var(--accent);
+				margin-top: auto;
+				padding-top: 0.4em;
 			}
 
 			.empty-section {
@@ -186,8 +159,7 @@ const statusLabel: Record<string, string> = {
 					font-size: 1.8rem;
 				}
 				.book-grid {
-					grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-					gap: 0.9rem;
+					grid-template-columns: 1fr;
 				}
 			}
 		</style>
@@ -212,23 +184,20 @@ const statusLabel: Record<string, string> = {
 							<p class="empty-section">Nothing here yet.</p>
 						) : (
 							<div class="book-grid">
-								{list.map((book) => {
+								{list.map((book, i) => {
 									const href = book.goodreadsUrl || goodreadsSearchUrl(book.title, book.author);
+									const spineColor = spineColors[i % spineColors.length];
 									return (
 										<a class="book-card" href={href} target="_blank" rel="noopener">
 											{book.coverUrl ? (
 												<img
-													class="book-cover"
+													class="book-cover-thumb"
 													src={book.coverUrl}
 													alt={`Cover of ${book.title}`}
 													loading="lazy"
 												/>
 											) : (
-												<div class="book-cover-placeholder">
-													<span class="cover-icon">📖</span>
-													<span class="cover-title">{book.title}</span>
-													<span class="cover-author">{book.author}</span>
-												</div>
+												<span class="book-spine" style={`background:${spineColor}`} />
 											)}
 											<div class="book-info">
 												<span class="book-title">{book.title}</span>
@@ -251,11 +220,6 @@ const statusLabel: Record<string, string> = {
 					</>
 				))
 			}
-
-			<p class="goodreads-note">
-				Links go to Goodreads. Manage this list via the <a href="/keystatic">CMS</a> under
-				<em>Reading List</em>.
-			</p>
 		</main>
 		<Footer />
 	</body>
