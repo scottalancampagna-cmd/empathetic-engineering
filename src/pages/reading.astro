@@ -7,6 +7,34 @@ import booksData from '../data/books.json';
 
 const { books } = booksData;
 
+// Fetch cover images from Google Books API at build time
+async function fetchCover(title: string, author: string): Promise<string | null> {
+	try {
+		const q = encodeURIComponent(`intitle:${title} inauthor:${author}`);
+		const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=1`);
+		if (!res.ok) return null;
+		const data = await res.json();
+		const thumb = data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail as string | undefined;
+		if (!thumb) return null;
+		// Force https, remove edge curl, bump zoom for a cleaner image
+		return thumb.replace('http://', 'https://').replace('&edge=curl', '').replace('zoom=1', 'zoom=2');
+	} catch {
+		return null;
+	}
+}
+
+// Pre-fetch covers for all books that don't have one set manually
+const coverMap = new Map<string, string | null>();
+await Promise.all(
+	books.map(async (book) => {
+		if (book.coverUrl) {
+			coverMap.set(book.title, book.coverUrl);
+		} else {
+			coverMap.set(book.title, await fetchCover(book.title, book.author));
+		}
+	}),
+);
+
 const reading = books.filter((b) => b.status === 'reading');
 const read = books.filter((b) => b.status === 'read');
 const want = books.filter((b) => b.status === 'want');
@@ -102,13 +130,15 @@ const spineColors = ['#e63946', '#2a9d8f', '#e9c46a', '#457b9d', '#a8dadc', '#f4
 				width: 8px;
 			}
 
-			/* Cover thumbnail (shown when coverUrl is set) */
+			/* Cover thumbnail */
 			.book-cover-thumb {
 				flex-shrink: 0;
-				width: 64px;
+				width: 80px;
+				height: 100%;
 				object-fit: cover;
 				display: block;
 				border-right: 2px solid rgb(var(--gray-light));
+				align-self: stretch;
 			}
 
 			.book-info {
@@ -187,12 +217,13 @@ const spineColors = ['#e63946', '#2a9d8f', '#e9c46a', '#457b9d', '#a8dadc', '#f4
 								{list.map((book, i) => {
 									const href = book.goodreadsUrl || goodreadsSearchUrl(book.title, book.author);
 									const spineColor = spineColors[i % spineColors.length];
+									const cover = coverMap.get(book.title);
 									return (
 										<a class="book-card" href={href} target="_blank" rel="noopener">
-											{book.coverUrl ? (
+											{cover ? (
 												<img
 													class="book-cover-thumb"
-													src={book.coverUrl}
+													src={cover}
 													alt={`Cover of ${book.title}`}
 													loading="lazy"
 												/>
